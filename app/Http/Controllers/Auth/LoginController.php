@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\UseCases\LoginValidator;
 use App\Http\Controllers\Controller;
 use \Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -21,6 +22,9 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
+    /** @var LoginValidator  */
+    private $loginValidator;
+
     /**
      * Where to redirect users after login.
      *
@@ -33,9 +37,10 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(LoginValidator $loginValidator)
     {
         $this->middleware('guest', ['except' => 'logout']);
+        $this->loginValidator = $loginValidator;
     }
 
     /**
@@ -56,6 +61,6 @@ class LoginController extends Controller
      */
     protected function credentials(Request $request)
     {
-        return $request->only($this->username(), 'password') + ['active' => 1, 'deleted' => 0];
+        return $this->loginValidator->buildActiveUserQuery($request, $this->username());
     }
 }
