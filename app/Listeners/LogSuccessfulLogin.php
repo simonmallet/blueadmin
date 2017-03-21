@@ -2,25 +2,22 @@
 
 namespace App\Listeners;
 
-use App\Models\Audit;
+use App\UseCases\AuditLogger;
 use Illuminate\Auth\Events\Login;
-use \Illuminate\Http\Request;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class LogSuccessfulLogin
 {
-    /** @var Audit */
-    private $auditModel;
+    /** @var AuditLogger */
+    private $auditLogger;
 
     /**
-     * Create the event listener.
+     * Creates listener
      *
-     * @return void
+     * @param AuditLogger $auditLogger
      */
-    public function __construct()
+    public function __construct(AuditLogger $auditLogger)
     {
-        $this->auditModel = new Audit;
+        $this->auditLogger = $auditLogger;
     }
 
     /**
@@ -31,10 +28,6 @@ class LogSuccessfulLogin
      */
     public function handle(Login $event)
     {
-        $this->auditModel->username = $event->user->username;
-        $this->auditModel->created_at = date("Y-m-d H:i:s");
-        $this->auditModel->state = 'LOGIN_SUCCESS';
-        $this->auditModel->ip_address = \Request::ip();
-        $this->auditModel->save();
+        $this->auditLogger->persist($event->user->username, 'LOGIN_SUCCESS');
     }
 }
