@@ -49,18 +49,13 @@ class LoginController extends Controller
     }
 
     /**
-     * The user has been authenticated.
+     * Get the needed authorization credentials from the request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
-     * @return mixed
+     * @return array
      */
-    protected function authenticated(Request $request, $user)
+    protected function credentials(Request $request)
     {
-        error_log('i am authed!!');
-        error_log(print_r($user->uid, true));
-        error_log(print_r($user->username, true));
-        error_log(print_r($user->password, true));
-        error_log(print_r($user->first_name, true));
+        return $request->only($this->username(), 'password') + ['active' => 1, 'deleted' => 0];
     }
 }
