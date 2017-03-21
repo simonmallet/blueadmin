@@ -26,4 +26,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function userPrivilege()
+    {
+        return $this->hasOne('App\UserPrivilege', 'users_uid', 'uid');
+    }
 }
