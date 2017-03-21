@@ -13,5 +13,7 @@
 
 Route::get('/', 'HomeController@index');
 
+Route::get('/dashboard', 'DashboardController@index');
+
 Auth::routes();
 
