@@ -1,24 +1,6 @@
-<html>
-<head>
-    <link href="css/bootstrap.css" rel="stylesheet">
+@extends('layout')
 
-    <style>
-        body{
-            background: url("img/stardust.png");
-        }
-
-        .centered-form .panel{
-            background: rgba(255, 255, 255, 0.8);
-            box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
-            color: #4e5d6c;
-        }
-
-        .centered-form{
-            margin-top: 60px;
-        }
-    </style>
-</head>
-<body>
+@section('content')
 <div class="row centered-form">
     <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
         <div class="panel panel-default">
@@ -26,10 +8,10 @@
                 <h3 class="panel-title">Please Login</h3>
             </div>
             <div class="panel-body">
-                <form role="form">
+                <form role="form" method="post">
 
                     <div class="form-group">
-                        <input type="email" name="email" class="form-control input-sm" placeholder="Username">
+                        <input type="username" name="username" class="form-control input-sm" placeholder="Username">
                     </div>
 
                     <div class="form-group">
@@ -49,5 +31,5 @@
         </div>
     </div>
 </div>
-</body>
-</html>
+
+@stop
