@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\UseCases\UserManager;
+use App\UseCases\Client\UserPermissionUpdater as ClientUserPermissionUpdater;
 use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
@@ -11,15 +12,19 @@ class ClientController extends Controller
     /** @var UserManager */
     private $userManager;
 
+    /** @var ClientUserPermissionUpdater */
+    private $clientUserPermissionUpdater;
+
     /**
-     * HomeController constructor.
+     * ClientController constructor.
      * @param UserManager $userManager
-     * @return void
+     * @param ClientUserPermissionUpdater $clientUserPermissionUpdater
      */
-    public function __construct(UserManager $userManager)
+    public function __construct(UserManager $userManager, ClientUserPermissionUpdater $clientUserPermissionUpdater)
     {
         $this->middleware('auth');
         $this->userManager = $userManager;
+        $this->clientUserPermissionUpdater = $clientUserPermissionUpdater;
     }
 
     /**
@@ -39,5 +44,17 @@ class ClientController extends Controller
             return view('user.client-update', $viewsVars);
         }
         return view('client-unknown');
+    }
+
+    /**
+     * @param Request $request
+     * @param string $clientUid
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function updateUserPermissions(Request $request, $clientUid)
+    {
+        $this->clientUserPermissionUpdater->updatePermissions($clientUid, $request->all());
+
+        return redirect('/dashboard');
     }
 }

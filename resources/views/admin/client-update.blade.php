@@ -8,7 +8,9 @@
 
         <div class="panel-body">
             @if(count($users) > 0)
-            <form>
+            <form action="/client/edit/{{$client->uid}}/permissions" method="POST">
+                {{ method_field('PUT') }}
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="table-responsive">
                 <table class="table">
                 @foreach($users as $user)
@@ -17,7 +19,7 @@
                             <label for="userName">{{ $user->first_name }} {{ $user->last_name }}</label>
                         </td>
                         <td>
-                            <input type="checkbox" id="canAccess{{$user->uid}}" {{ $user->canAccess ? 'CHECKED' : '' }}>
+                            <input type="checkbox" name="canAccess-{{$user->uid}}" id="canAccess-{{$user->uid}}" {{ $user->canAccess ? 'CHECKED' : '' }}>
                         </td>
                     </tr>
                 @endforeach
