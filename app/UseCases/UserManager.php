@@ -31,7 +31,7 @@ class UserManager
     public function getClientsByUserAccessLevel($userUid, $level)
     {
         if ($level == UserPrivilege::USER_PRIVILEGE_ADMIN) {
-            return Client::where('deleted', 0)->get();
+            return $this->clientModel->getAllActiveClients();
         }
 
         return $this->clientModel->getClientsByUserId($userUid);
