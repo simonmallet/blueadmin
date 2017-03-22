@@ -32,7 +32,10 @@ class ClientController extends Controller
         $viewsVars['client'] = $this->userManager->getClientByUserAccessLevel($clientUid, $user->uid, $user->userPrivilege->level);
 
         if (count($viewsVars['client']) > 0) {
-            return view('client-update', $viewsVars);
+            if ($this->userManager->isAdminUser($user->userPrivilege->level)) {
+                return view('admin.client-update', $viewsVars);
+            }
+            return view('user.client-update', $viewsVars);
         }
         return view('client-unknown');
     }

@@ -68,7 +68,7 @@ class UserManager
      * @param string $level
      * @return bool
      */
-    private function isAdminUser($level)
+    public function isAdminUser($level)
     {
         return ($level == UserPrivilege::USER_PRIVILEGE_ADMIN);
     }

@@ -21,8 +21,10 @@
                         </div>
                         <button type="submit" class="btn btn-default">Save</button>
                     </form>
+
                 </div>
             </div>
+            @yield('user-management-for-client')
         </div>
     </div>
 </div>
