@@ -5,7 +5,17 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Clients</div>
+                <div class="panel-heading">
+                    <h4>
+                        Clients
+                        @if (Auth::user()->userPrivilege->level == 'ADMIN')
+                            <button type="button" class="btn btn-default btn-sm">
+                                <span class="glyphicon glyphicon-plus-sign"></span> Add Client
+                            </button>
+                        @endif
+                    </h4>
+
+                </div>
 
                 <div class="panel-body">
                     @if (count($clients) > 0)
@@ -24,9 +34,9 @@
                                 </div>
                             </div>
                             @if (!$loop->last)
-                            <div class="row">
-                                <div class="col-xs-12"></div>
-                            </div>
+                                <div class="row">
+                                    <div class="col-xs-12"></div>
+                                </div>
                             @endif
                         @endforeach
                     @else
