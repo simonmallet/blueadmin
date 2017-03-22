@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Client;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -24,6 +25,12 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        return view('home');
+        $viewsVars = [];
+        //error_log(print_r(Client::where('deleted', 0)->get(), true));
+        if (Auth::check()) {
+            $viewsVars['clients'] = Client::where('deleted', 0)->get();
+        }
+        error_log(print_r($viewsVars, true));
+        return view('home', $viewsVars);
     }
 }

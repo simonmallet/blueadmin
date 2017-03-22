@@ -8,35 +8,34 @@
                 <div class="panel-heading">Clients</div>
 
                 <div class="panel-body">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 bg-primary">
-                            <p><h4>Police Academy</h4></p>
+                    @if (count($clients) > 0)
+                        @foreach ($clients as $client)
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 bg-primary">
+                                    <p><h4>{{ $client->name }}</h4></p>
+                                </div>
+                                <div class="col-xs-12 col-sm-10 bg-info">
+                                    <p class="text-centered">{{ $client->address or '- No address on file -' }}</p>
+                                </div>
+                                <div class="col-xs-12 col-sm-2 bg-info">
+                                    <button type="button" class="btn btn-default btn-sm text-centered">
+                                        <span class="glyphicon glyphicon-pencil"></span> Edit
+                                    </button>
+                                </div>
+                            </div>
+                            @if (!$loop->last)
+                            <div class="row">
+                                <div class="col-xs-12"></div>
+                            </div>
+                            @endif
+                        @endforeach
+                    @else
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h5>No client could be found in the system</h5>
+                            </div>
                         </div>
-                        <div class="col-xs-12 col-sm-10 bg-info">
-                            <p class="text-centered">800 Principal St, Wichita, KS, 02991</p>
-                        </div>
-                        <div class="col-xs-12 col-sm-2 bg-info text-center">
-                            <button type="button" class="btn btn-default btn-sm">
-                                <span class="glyphicon glyphicon-pencil"></span> Edit
-                            </button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 bg-primary">
-                            <h4>Batman Inc</h4>
-                        </div>
-                        <div class="col-xs-12 col-sm-10 bg-info">
-                            <p class="text-centered">800 Principal St, Wichita, KS, 02991</p>
-                        </div>
-                        <div class="col-xs-12 col-sm-2 bg-info text-center">
-                            <button type="button" class="btn btn-default btn-sm">
-                                <span class="glyphicon glyphicon-pencil"></span> Edit
-                            </button>
-                        </div>
-                    </div>
+                    @endif
                 </div>
             </div>
         </div>
