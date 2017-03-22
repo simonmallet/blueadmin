@@ -7,6 +7,7 @@
         </div>
 
         <div class="panel-body">
+            @if(count($users) > 0)
             <form>
                 <div class="table-responsive">
                 <table class="table">
@@ -28,7 +29,9 @@
                 </table>
                 </div>
             </form>
-
+            @else
+                There are no active users in the system at the moment.
+            @endif
         </div>
     </div>
 @endsection
