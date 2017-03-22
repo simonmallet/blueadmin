@@ -51,6 +51,15 @@ class UserManager
     }
 
     /**
+     * @param string $clientUid
+     * @return mixed
+     */
+    public function getUsersPrivilegesForClient($clientUid)
+    {
+        return $this->clientModel->getUsersPrivilegesForClient($clientUid);
+    }
+
+    /**
      * @param string $username
      * @param string $state
      */

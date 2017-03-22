@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\UserPrivilege;
 use Illuminate\Database\Eloquent\Model;
 use \Illuminate\Support\Facades\DB;
 
@@ -53,5 +54,16 @@ class Client extends Model
         if (count($client) > 0) {
             return $client[0];
         }
+    }
+
+    /**
+     * Note: Always exclude admin user for this query
+     *
+     * @param $clientUid
+     * @return array
+     */
+    public function getUsersPrivilegesForClient($clientUid)
+    {
+        return DB::select('select u.uid, u.first_name, u.last_name, (SELECT count(*) FROM users_clients_privileges ucp WHERE ucp.`users_uid` = u.uid AND ucp.`clients_uid` = ?) as canAccess from users u INNER JOIN users_privileges up ON u.uid = up.`users_uid` where active=1 and deleted=0 AND up.level = ?', [$clientUid, UserPrivilege::USER_PRIVILEGE_USER]);
     }
 }

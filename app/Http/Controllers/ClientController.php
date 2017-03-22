@@ -33,6 +33,7 @@ class ClientController extends Controller
 
         if (count($viewsVars['client']) > 0) {
             if ($this->userManager->isAdminUser($user->userPrivilege->level)) {
+                $viewsVars['users'] = $this->userManager->getUsersPrivilegesForClient($clientUid);
                 return view('admin.client-update', $viewsVars);
             }
             return view('user.client-update', $viewsVars);
