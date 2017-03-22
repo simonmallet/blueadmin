@@ -9,7 +9,7 @@
                     <h4>
                         Clients
                         @if (Auth::user()->userPrivilege->level == 'ADMIN')
-                            <a href="/" class="btn btn-default btn-sm">
+                            <a href="/client/new" class="btn btn-default btn-sm">
                                 <span class="glyphicon glyphicon-plus-sign"></span> Add Client
                             </a>
                         @endif

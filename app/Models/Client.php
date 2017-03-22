@@ -43,6 +43,10 @@ class Client extends Model
         return self::where('deleted', 0)->get();
     }
 
+    /**
+     * @param $clientUid
+     * @return mixed
+     */
     public function getClientById($clientUid)
     {
         $client = self::where('deleted', 0)->where('uid', $clientUid)->get();

@@ -56,6 +56,7 @@ class UserManager
      */
     public function persist($username, $state)
     {
+        // @todo
         $this->clientModel->username = $username;
         $this->clientModel->created_at = date("Y-m-d H:i:s");
         $this->clientModel->state = $state;
