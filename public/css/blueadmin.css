@@ -1,0 +1,13 @@
+.panel-body {
+    padding-top: 0px;
+}
+
+.panel-body .row div {
+    height: 30px;
+}
+
+.text-centered {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}

@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/blueadmin.css') }}" rel="stylesheet">
 
     <!-- Scripts -->
     <script>
