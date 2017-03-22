@@ -3,19 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Client;
+use App\UseCases\UserManager;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
+    /** @var UserManager */
+    private $userManager;
+
     /**
-     * Create a new controller instance.
-     *
+     * HomeController constructor.
+     * @param UserManager $userManager
      * @return void
      */
-    public function __construct()
+    public function __construct(UserManager $userManager)
     {
         $this->middleware('auth');
+        $this->userManager = $userManager;
     }
 
     /**
@@ -26,11 +30,9 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $viewsVars = [];
-        //error_log(print_r(Client::where('deleted', 0)->get(), true));
-        if (Auth::check()) {
-            $viewsVars['clients'] = Client::where('deleted', 0)->get();
-        }
-        error_log(print_r($viewsVars, true));
+        $user = Auth::user();
+        $viewsVars['clients'] = $this->userManager->getClientsByUserAccessLevel($user->uid, $user->userPrivilege->level);
+
         return view('home', $viewsVars);
     }
 }
