@@ -9,9 +9,9 @@
                     <h4>
                         Clients
                         @if (Auth::user()->userPrivilege->level == 'ADMIN')
-                            <button type="button" class="btn btn-default btn-sm">
+                            <a href="/" class="btn btn-default btn-sm">
                                 <span class="glyphicon glyphicon-plus-sign"></span> Add Client
-                            </button>
+                            </a>
                         @endif
                     </h4>
 
@@ -28,9 +28,9 @@
                                     <p class="text-centered">{{ $client->address or '- No address on file -' }}</p>
                                 </div>
                                 <div class="col-xs-12 col-sm-2 bg-info">
-                                    <button type="button" class="btn btn-default btn-sm text-centered">
+                                    <a href="/client/edit/{{ $client->uid }}" class="btn btn-default btn-sm text-centered">
                                         <span class="glyphicon glyphicon-pencil"></span> Edit
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                             @if (!$loop->last)

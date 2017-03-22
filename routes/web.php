@@ -14,6 +14,7 @@
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index');
 Route::get('/dashboard', 'HomeController@index');
+Route::get('/client/edit/{uid}', 'ClientController@view');
 
 Auth::routes();
 

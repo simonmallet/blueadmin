@@ -30,11 +30,24 @@ class UserManager
      */
     public function getClientsByUserAccessLevel($userUid, $level)
     {
-        if ($level == UserPrivilege::USER_PRIVILEGE_ADMIN) {
+        if ($this->isAdminUser($level)) {
             return $this->clientModel->getAllActiveClients();
         }
 
         return $this->clientModel->getClientsByUserId($userUid);
+    }
+
+    /**
+     * @param string $clientUid
+     * @param string $userUid
+     * @param string $level
+     * @return mixed
+     */
+    public function getClientByUserAccessLevel($clientUid, $userUid, $level)
+    {
+        if ($this->isAdminUser($level) || $this->clientModel->canUserAccessClient($userUid, $clientUid)) {
+            return $this->clientModel->getClientById($clientUid);
+        }
     }
 
     /**
@@ -48,5 +61,14 @@ class UserManager
         $this->clientModel->state = $state;
         $this->clientModel->ip_address = \Request::ip();
         $this->clientModel->save();
+    }
+
+    /**
+     * @param string $level
+     * @return bool
+     */
+    private function isAdminUser($level)
+    {
+        return ($level == UserPrivilege::USER_PRIVILEGE_ADMIN);
     }
 }
