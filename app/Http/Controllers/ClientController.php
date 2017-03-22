@@ -31,6 +31,9 @@ class ClientController extends Controller
         $user = Auth::user();
         $viewsVars['client'] = $this->userManager->getClientByUserAccessLevel($clientUid, $user->uid, $user->userPrivilege->level);
 
-        return view('client', $viewsVars);
+        if (count($viewsVars['client']) > 0) {
+            return view('client-update', $viewsVars);
+        }
+        return view('client-unknown');
     }
 }
