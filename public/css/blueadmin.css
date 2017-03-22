@@ -22,3 +22,10 @@
 .panel-heading a {
     float: right;
 } */
+
+.csrf-error {
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+}

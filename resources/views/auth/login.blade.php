@@ -4,6 +4,12 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
+
+            @if(session('csrf_error'))
+                <div class="col-xs-12 csrf-error">
+                    {{ session('csrf_error') }}
+                </div>
+            @endif
             <div class="panel panel-default">
                 <div class="panel-heading">Login</div>
                 <div class="panel-body">
