@@ -55,6 +55,6 @@ class ClientController extends Controller
     {
         $this->clientUserPermissionUpdater->updatePermissions($clientUid, $request->all());
 
-        return redirect('/dashboard');
+        return redirect('/dashboard')->with('save_successful', 'The user permissions were updated successfully.');
     }
 }

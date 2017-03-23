@@ -29,3 +29,10 @@
     font-weight: bold;
     padding: 10px;
 }
+
+.save-successful {
+    background-color: darkgrey;
+    font-weight: bold;
+    padding: 10px;
+    margin-bottom: 10px;
+}

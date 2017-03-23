@@ -66,4 +66,23 @@ class Client extends Model
     {
         return DB::select('select u.uid, u.first_name, u.last_name, (SELECT count(*) FROM users_clients_privileges ucp WHERE ucp.`users_uid` = u.uid AND ucp.`clients_uid` = ?) as canAccess from users u INNER JOIN users_privileges up ON u.uid = up.`users_uid` where active=1 and deleted=0 AND up.level = ?', [$clientUid, UserPrivilege::USER_PRIVILEGE_USER]);
     }
+
+    /**
+     * @param string $clientUid
+     * @return void
+     */
+    public function deleteUserPermissions($clientUid)
+    {
+        DB::delete('delete from users_clients_privileges WHERE clients_uid = ?', [$clientUid]);
+    }
+
+    /**
+     * @param string $clientUid
+     * @param string $userUid
+     * @return void
+     */
+    public function addUserPermission($clientUid, $userUid)
+    {
+        DB::insert('insert into users_clients_privileges (users_uid, clients_uid) values (?, ?)', [$userUid, $clientUid]);
+    }
 }

@@ -2,8 +2,22 @@
 
 namespace App\UseCases\Client;
 
+use App\Models\Client;
+
 class UserPermissionUpdater
 {
+    /** @var Client */
+    private $clientModel;
+
+    /**
+     * UserPermissionUpdater constructor.
+     * @param Client $clientModel
+     */
+    public function __construct(Client $clientModel)
+    {
+        $this->clientModel = $clientModel;
+    }
+
     /**
      * @param $clientUid
      * @param $parameters
@@ -11,13 +25,13 @@ class UserPermissionUpdater
      */
     public function updatePermissions($clientUid, $parameters)
     {
-        $users = [];
+        $this->clientModel->deleteUserPermissions($clientUid);
+
         foreach ($parameters as $parameterKey => $parameterValue) {
             if (preg_match("/^canAccess\-/", $parameterKey)) {
-                $users[] = substr($parameterKey, 10);
+                $userUid = substr($parameterKey, 10, 32);
+                $this->clientModel->addUserPermission($clientUid, $userUid);
             }
         }
-
-        error_log(print_r($users, true));
     }
 }
