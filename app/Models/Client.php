@@ -85,4 +85,15 @@ class Client extends Model
     {
         DB::insert('insert into users_clients_privileges (users_uid, clients_uid) values (?, ?)', [$userUid, $clientUid]);
     }
+
+    /**
+     * @param string $clientUid
+     * @param string $clientName
+     * @param string $clientAddress
+     * @return void
+     */
+    public function updateInformation($clientUid, $clientName, $clientAddress)
+    {
+        DB::update('UPDATE clients SET name=?, address=? WHERE uid=?', [$clientName, $clientAddress, $clientUid]);
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\UseCases\UserManager;
 use App\UseCases\Client\UserPermissionUpdater as ClientUserPermissionUpdater;
+use App\UseCases\UseCaseFactory;
 use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
@@ -15,16 +16,22 @@ class ClientController extends Controller
     /** @var ClientUserPermissionUpdater */
     private $clientUserPermissionUpdater;
 
+    /** @var UseCaseFactory */
+    private $useCaseFactory;
     /**
      * ClientController constructor.
      * @param UserManager $userManager
      * @param ClientUserPermissionUpdater $clientUserPermissionUpdater
      */
-    public function __construct(UserManager $userManager, ClientUserPermissionUpdater $clientUserPermissionUpdater)
-    {
+    public function __construct(
+        UserManager $userManager,
+        ClientUserPermissionUpdater $clientUserPermissionUpdater,
+        UseCaseFactory $useCaseFactory
+    ) {
         $this->middleware('auth');
         $this->userManager = $userManager;
         $this->clientUserPermissionUpdater = $clientUserPermissionUpdater;
+        $this->useCaseFactory = $useCaseFactory;
     }
 
     /**
@@ -58,7 +65,13 @@ class ClientController extends Controller
             'clientName' => 'required|max:50',
         ]);
 
-        return redirect('/dashboard')->with(self::SESSION_SAVE_SUCCESSFUL, 'The client information were updated successfully.');
+        $this->useCaseFactory->get('clientProfileUpdater')->update(
+            $clientUid,
+            $request->input('clientName'),
+            $request->input('clientAddress')
+        );
+
+        return redirect('/dashboard')->with(self::SESSION_SAVE_SUCCESSFUL, 'The client information was updated successfully.');
     }
 
     /**
