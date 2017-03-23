@@ -28,6 +28,6 @@ class LogFailedLogin
      */
     public function handle(Failed $event)
     {
-        $this->auditLogger->persist($event->user->username, 'LOGIN_FAILED');
+        $this->auditLogger->persist($event->credentials['username'], 'LOGIN_FAILED');
     }
 }
