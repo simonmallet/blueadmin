@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\UseCases\Client\ProfileCreator;
 use Illuminate\Http\Request;
 use App\UseCases\UseCaseFactory;
 use Illuminate\Support\Facades\Auth;
@@ -11,17 +12,23 @@ class ClientController extends Controller
     /** @var UseCaseFactory */
     private $useCaseFactory;
 
+    /** @var ProfileCreator */
+    private $profileCreator;
+
     /**
      * @param UseCaseFactory $useCaseFactory
+     * @param ProfileCreator $profileCreator
      */
-    public function __construct(UseCaseFactory $useCaseFactory)
+    public function __construct(UseCaseFactory $useCaseFactory, ProfileCreator $profileCreator)
     {
         $this->middleware('auth');
         $this->useCaseFactory = $useCaseFactory;
+        $this->profileCreator = $profileCreator;
     }
 
     /**
-     * @return \Illuminate\Http\Response
+     * @param string $clientUid
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function view($clientUid)
     {
@@ -51,6 +58,24 @@ class ClientController extends Controller
 
         $viewVars['users'] = $this->useCaseFactory->get('userManager')->getActiveUsers();
         return view('admin.client-create', $viewVars);
+    }
+
+    /**
+     * Creates a client
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function create(Request $request)
+    {
+        $this->validate($request, [
+            'clientName' => 'required|max:50',
+        ]);
+
+        $this->profileCreator->create($request->all());
+
+        return redirect('/dashboard')->with(self::SESSION_SAVE_SUCCESSFUL, 'The client was created successfully.');
     }
 
     /**

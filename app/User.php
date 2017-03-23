@@ -37,10 +37,14 @@ class User extends Authenticatable
     }
 
     /**
+     * @param bool $includeAdmin
      * @return array
      */
-    public function getActiveUsers()
+    public function getActiveUsers($includeAdmin = false)
     {
-        return DB::select('SELECT uid, first_name, last_name, username FROM users WHERE active=1 and deleted=0');
+        if ($includeAdmin) {
+            return DB::select('SELECT uid, first_name, last_name, username FROM users WHERE active=1 and deleted=0');
+        }
+        return DB::select('SELECT uid, first_name, last_name, username FROM users u INNER JOIN users_privileges up ON u.uid = up.users_uid WHERE active=1 AND deleted=0 AND up.level != ?', [UserPrivilege::USER_PRIVILEGE_ADMIN]);
     }
 }
