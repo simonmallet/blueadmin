@@ -9,5 +9,10 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Controller extends BaseController
 {
+    /**
+     * Constant used to display success messages.
+     */
+    const SESSION_SAVE_SUCCESSFUL = 'save_successful';
+
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 }

@@ -48,13 +48,29 @@ class ClientController extends Controller
 
     /**
      * @param Request $request
+     * @param $clientUid
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function updateClientInformation(Request $request, $clientUid)
+    {
+        $this->validate($request, [
+            'clientName' => 'required|max:50',
+        ]);
+
+        return redirect('/dashboard')->with(self::SESSION_SAVE_SUCCESSFUL, 'The client information were updated successfully.');
+    }
+
+    /**
+     * @param Request $request
      * @param string $clientUid
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function updateUserPermissions(Request $request, $clientUid)
     {
         $this->clientUserPermissionUpdater->updatePermissions($clientUid, $request->all());
 
-        return redirect('/dashboard')->with('save_successful', 'The user permissions were updated successfully.');
+        return redirect('/dashboard')->with(self::SESSION_SAVE_SUCCESSFUL, 'The user permissions were updated successfully.');
     }
 }

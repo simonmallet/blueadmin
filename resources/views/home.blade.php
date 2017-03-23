@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             @if (session('save_successful'))
-                <div class="col-xs-12 save-successful">
+                <div class="alert alert-success">
                     {{ session('save_successful') }}
                 </div>
             @endif
