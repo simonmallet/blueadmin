@@ -3,6 +3,7 @@
 namespace App\UseCases;
 
 use App\Models\Client;
+use App\User;
 use App\UserPrivilege;
 
 /**
@@ -13,6 +14,9 @@ class UserManager
     /** @var Client */
     private $clientModel;
 
+    /** @var User */
+    private $userModel;
+
     /**
      * Create the event listener.
      *
@@ -21,6 +25,7 @@ class UserManager
     public function __construct()
     {
         $this->clientModel = new Client;
+        $this->userModel = new User;
     }
 
     /**
@@ -35,6 +40,14 @@ class UserManager
         }
 
         return $this->clientModel->getClientsByUserId($userUid);
+    }
+
+    /**
+     * @return array
+     */
+    public function getActiveUsers()
+    {
+        return $this->userModel->getActiveUsers();
     }
 
     /**

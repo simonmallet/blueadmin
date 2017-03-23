@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use \Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -33,5 +34,13 @@ class User extends Authenticatable
     public function userPrivilege()
     {
         return $this->hasOne('App\UserPrivilege', 'users_uid', 'uid');
+    }
+
+    /**
+     * @return array
+     */
+    public function getActiveUsers()
+    {
+        return DB::select('SELECT uid, first_name, last_name, username FROM users WHERE active=1 and deleted=0');
     }
 }

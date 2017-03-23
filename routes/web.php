@@ -15,6 +15,7 @@ Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index');
 Route::get('/dashboard', 'HomeController@index');
 
+Route::get('/client/new', 'ClientController@viewCreate')->middleware('admin');
 Route::get('/client/edit/{uid}', 'ClientController@view');
 Route::put('/client/edit/{uid}', 'ClientController@updateClientInformation');
 Route::put('/client/edit/{uid}/permissions', 'ClientController@updateUserPermissions');

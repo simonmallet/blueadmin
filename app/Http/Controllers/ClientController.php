@@ -40,6 +40,20 @@ class ClientController extends Controller
     }
 
     /**
+     * Can only be accessed by Admin users for now! (business rule)
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function viewCreate()
+    {
+        $viewVars = [];
+        $user = Auth::user();
+
+        $viewVars['users'] = $this->useCaseFactory->get('userManager')->getActiveUsers();
+        return view('admin.client-create', $viewVars);
+    }
+
+    /**
      * @param Request $request
      * @param $clientUid
      *
