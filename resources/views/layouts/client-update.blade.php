@@ -33,7 +33,7 @@
                         </div>
                         <button type="submit" class="btn btn-default">Save</button>
                     </form>
-
+                    @yield('delete-client-button')
                 </div>
             </div>
             @yield('user-management-for-client')

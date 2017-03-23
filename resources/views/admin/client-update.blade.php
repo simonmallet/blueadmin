@@ -37,3 +37,11 @@
         </div>
     </div>
 @endsection
+
+@section('delete-client-button')
+    <form action="/client/edit/{{$client->uid}}" method="POST">
+        {{ method_field('DELETE') }}
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <button type="submit" name="deleteBtn" id="deleteBtn" class="btn btn-danger">Delete client</button>
+    </form>
+@endsection

@@ -96,4 +96,9 @@ class Client extends Model
     {
         DB::update('UPDATE clients SET name=?, address=? WHERE uid=?', [$clientName, $clientAddress, $clientUid]);
     }
+
+    public function deleteClient($uid)
+    {
+        self::where('uid', $uid)->delete();
+    }
 }

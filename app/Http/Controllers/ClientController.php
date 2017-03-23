@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\UseCases\Client\ProfileCreator;
+use App\UseCases\Client\ProfileDeleter;
 use Illuminate\Http\Request;
 use App\UseCases\UseCaseFactory;
 use Illuminate\Support\Facades\Auth;
@@ -15,15 +16,19 @@ class ClientController extends Controller
     /** @var ProfileCreator */
     private $profileCreator;
 
+    /** @var  ProfileDeleter */
+    private $profileDeleter;
+
     /**
      * @param UseCaseFactory $useCaseFactory
      * @param ProfileCreator $profileCreator
      */
-    public function __construct(UseCaseFactory $useCaseFactory, ProfileCreator $profileCreator)
+    public function __construct(UseCaseFactory $useCaseFactory, ProfileCreator $profileCreator, ProfileDeleter $profileDeleter)
     {
         $this->middleware('auth');
         $this->useCaseFactory = $useCaseFactory;
         $this->profileCreator = $profileCreator;
+        $this->profileDeleter = $profileDeleter;
     }
 
     /**
@@ -97,6 +102,17 @@ class ClientController extends Controller
         );
 
         return redirect('/dashboard')->with(self::SESSION_SAVE_SUCCESSFUL, 'The client information was updated successfully.');
+    }
+
+    /**
+     * @param Request $request
+     * @param $clientUid
+     */
+    public function delete(Request $request, $clientUid)
+    {
+        $this->profileDeleter->delete($clientUid);
+
+        return redirect('/dashboard')->with(self::SESSION_SAVE_SUCCESSFUL, 'The client has been deleted successfully.');
     }
 
     /**

@@ -20,6 +20,7 @@ Route::post('/client/new', 'ClientController@create')->middleware('admin');
 
 Route::get('/client/edit/{uid}', 'ClientController@view');
 Route::put('/client/edit/{uid}', 'ClientController@updateClientInformation');
+Route::delete('/client/edit/{uid}', 'ClientController@delete')->middleware('admin');
 Route::put('/client/edit/{uid}/permissions', 'ClientController@updateUserPermissions');
 
 Auth::routes();
