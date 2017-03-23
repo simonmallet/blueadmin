@@ -3,34 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\UseCases\UserManager;
-use App\UseCases\Client\UserPermissionUpdater as ClientUserPermissionUpdater;
 use App\UseCases\UseCaseFactory;
 use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
-    /** @var UserManager */
-    private $userManager;
-
-    /** @var ClientUserPermissionUpdater */
-    private $clientUserPermissionUpdater;
-
     /** @var UseCaseFactory */
     private $useCaseFactory;
+
     /**
-     * ClientController constructor.
-     * @param UserManager $userManager
-     * @param ClientUserPermissionUpdater $clientUserPermissionUpdater
+     * @param UseCaseFactory $useCaseFactory
      */
-    public function __construct(
-        UserManager $userManager,
-        ClientUserPermissionUpdater $clientUserPermissionUpdater,
-        UseCaseFactory $useCaseFactory
-    ) {
+    public function __construct(UseCaseFactory $useCaseFactory)
+    {
         $this->middleware('auth');
-        $this->userManager = $userManager;
-        $this->clientUserPermissionUpdater = $clientUserPermissionUpdater;
         $this->useCaseFactory = $useCaseFactory;
     }
 
@@ -41,11 +27,11 @@ class ClientController extends Controller
     {
         $viewsVars = [];
         $user = Auth::user();
-        $viewsVars['client'] = $this->userManager->getClientByUserAccessLevel($clientUid, $user->uid, $user->userPrivilege->level);
+        $viewsVars['client'] = $this->useCaseFactory->get('userManager')->getClientByUserAccessLevel($clientUid, $user->uid, $user->userPrivilege->level);
 
         if (count($viewsVars['client']) > 0) {
-            if ($this->userManager->isAdminUser($user->userPrivilege->level)) {
-                $viewsVars['users'] = $this->userManager->getUsersPrivilegesForClient($clientUid);
+            if ($this->useCaseFactory->get('userManager')->isAdminUser($user->userPrivilege->level)) {
+                $viewsVars['users'] = $this->useCaseFactory->get('userManager')->getUsersPrivilegesForClient($clientUid);
                 return view('admin.client-update', $viewsVars);
             }
             return view('user.client-update', $viewsVars);
@@ -82,7 +68,7 @@ class ClientController extends Controller
      */
     public function updateUserPermissions(Request $request, $clientUid)
     {
-        $this->clientUserPermissionUpdater->updatePermissions($clientUid, $request->all());
+        $this->useCaseFactory->get('clientUserPermissionUpdater')->updatePermissions($clientUid, $request->all());
 
         return redirect('/dashboard')->with(self::SESSION_SAVE_SUCCESSFUL, 'The user permissions were updated successfully.');
     }
