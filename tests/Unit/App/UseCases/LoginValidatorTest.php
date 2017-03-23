@@ -14,16 +14,11 @@ class LoginValidatorTest extends TestCase
     /** @var LoginValidator */
     private $loginValidator;
 
-    /** @var AuditModel */
-    private $auditModel;
-
     /**
      *
      */
     public function setUp()
     {
-
-
         $this->loginValidator = new LoginValidator();
     }
 

@@ -22,10 +22,10 @@ class UserManager
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Client $clientModel, User $userModel)
     {
-        $this->clientModel = new Client;
-        $this->userModel = new User;
+        $this->clientModel = $clientModel;
+        $this->userModel = $userModel;
     }
 
     /**
